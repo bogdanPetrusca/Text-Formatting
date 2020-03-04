@@ -1,0 +1,96 @@
+PETRUSCA BOGDAN-MIHAI 313CB
+
+* functia "deleteTrailingSpaces" sterge spatiile ramase la sfarsitul unei linii
+date. Am parcurs vectorul invers si am numarat spatiile pana cand intalneste
+orice caracter diferit de space sau '\t' si ii memoreaza pozitia invariabila
+"poz". Dupa aceea am pus "\n" pe pozitia respectiva si pe pozitia urmatoare
+"\0".
+
+*functia "deleteStartingSpaces" sterge spatiile de la inceputul unei linii date.
+Am parcurs linia si am numarat spatiile pana cand intalneste orice caracter
+diferit de space sau '\t'. Dupa aceea am eliminat aceste spatii folosind functia
+"memmove".
+
+*functia "left_right_limits" afla intre ce linii se pot face operatiile.
+Parametrii left[10] si right[10] ii voi explica mai incolo in readme. Parametrul
+"linii" iar valoarea lui "original_line_count". In left[10] se afla limita la
+stanga, iar in right[10] se afla limita la dreapta. In "start_line" si
+"end_line" se salveaza valorile acestor limite sub forma de int. In primul if am
+verificat daca nu exista in string-urile left si right valori (pentru comenzi ca
+C, L, R fara niciun paramentru dupa ele). In acest caz "start_line" va fi si
+end_line va fi "original_line_count". In al doilea if am verificat daca in
+string-ul left se afla vreun caracter, iar in al doilea nu. In acest caz
+"start_line" este valoarea transformata in int utilizand functia "atoi" a
+string-ului left. Iar "end_line" va fi "original_line_count". In ultimul if am
+verificat daca in ambele string-uri se afla vreun caracter. In aceste caz
+"start_line" si "end_line" iau valorile lor transformate in int utilizand
+functia "atoi". Am apelat functia aceasta in fiecare functie care are argumente
+de acest tip.
+
+*Nu are rost sa explic ce fac functiile "aligLeft", "alignRight", "center",
+"paragraphs" deorece tot ce am facut in ele a fost sa adaug sau sterg spatii.
+
+*functia "list". In parametrul list_type[10] se afla unul dintre caracterele
+"n", "a", "A", "b". Am facut un switch mare, si am folosit sprint f pt a adauga
+spatii si separatorul.
+
+*functia "orderedList". Este la fel ca functia "list" doar ca liniile sunt
+sortate.
+
+*functia "justify". Intai am sters spatiile de la inceputul fiecare linii. Am
+parcurs de la "start_line" pana la "end_line". Daca linia "i" nu este goala
+atunci fac un while care functioneaza cat timp lungimea liniei este mai mica
+decat lungimea maxima. In acest while am facut un for care parcurge linia. In
+acesta am verificat daca valoarea de pe aceasta  pozitie este spatiu , iar in
+acest caz adaug un spatiu cu functia "memmove". Dupa aceea, numar cate spatii am
+inceput cu pozitia respectiva si retin aceasca valoare in variabila "cont".
+Foloesc instrctiunea "j=j+cont" pentru a trece peste aceste spatii. De asemenea
+daca s-a ajuns la lungimea maxima inainte sa se termine for-ul ies din acesta
+folosind "break". Ignor folosind "continue" daca i-ul a ajuns la linie cu
+lungime maxima sau daca s-a ajuns pe ultima linie.
+
+*functia wrap. In prima parte a functiei am adaugul tot continutul matricei
+a(careprimeste valoarea matricei original) intr-un vector mare numit buff. Daca
+lungimealiniei este mai mare ca 1, adica daca nu este goala atunci elimin '\n'
+de la sfarsitul ei. Daca "i" a ajuns la ultima linie atunci adaug '\n' in
+vector, iar dacalinia este goala atunci concatenez 2 spatii la vectorul buff. De
+asemenea am facutun if care verifica daca lungimea liniei este mai mica decat
+argumenul da(e.g 60,43, 80). In acest caz adaug un spatiu in vectotorul buff.
+Dupa acea verific dacalungimea celui mai mare cuvant este mai mare decat
+argumenul dat. In acest caz se returneaza 0. In variabila "end" am salvat
+valoarea argumentului, iar variabila start initial este 0. Dupa aceea am parcurs
+vectorul. Daca "j" este egal cu "end", iar daca valoarea de pe aceastapozitia
+este diferita de spatiu(adica daca este intr-un cuvant), atunci fac un while in
+care scad end-ul pana cand ajunge la un spatiu, iar apoi am pus pe aceapozitie
+"\n". Am actualizat start cu pozitia urmatoare "end"-ului. Acest lucru l-am
+facut si cu "j", iar pe "end" l-am actualizat cu "start" + argument( care este
+reprezentat de variabila line_length). In conditia de else al if-ului care imi
+verifica daca valoarea de pe pozitia "j" al vectorului este diferita de spatiu,
+am adaugat direct "\n" deoarece asta inseamna ca este deja spatiu in aceasta, si
+am facut aceleasi operatii cu "start", "end" si "j". Dupa aceea am golit tot ce
+se afla in matricea "a" folosind un for si functia memset, iar apoi am salvat
+vectorul "buff" in matricea "a" si returnez 1.
+
+*main(). In acesta am salvat matricea "original" in matricea "copieOriginal". Am
+despartit prin "," cu strtok fiecare argument. si adaug in matricea "matrice"
+argumentele comenzi astfel: pe linia 0 se afla comanda, pe linia 1 se afla
+argumentul 1, pe linia 2 se afla argumentul 2 etc. (adica daca am I b * 2 4, pe
+linia 0 o sa am "I", pe linia 1 o sa am "b" si tot asa). Dupa aceea am facut un
+switch foarte mare pentru apelarea functiilor. In variabila "cont" se retina
+cate comenzi s-au facut iar daca s-au facut 10 switch-ul se opreste. Inainte
+apelarii fiecarei functii am verificat daca limita la stanga e mai mare decat
+cea de la dreapta, iar in acest caz copiez valoarea copiei matricei original in
+matricea result, afisez mesajul de eroare si dau break. Inainte sa apelez
+functia "wrap" verific daca argumentul nu exita. In acest caz copiez matricea
+copieOriginal in result, afisez mesajul de eroare si dau break. Apelez functia
+wrap si pastrez in variabila "ok" valoarea returnata a functiei. Daca acesta
+este 0, adica daca lungimea celui mai mare cuvand este mai mare decat argumentul
+atunci copiez in result copieOriginal, afisez mesajul de eroare si break.
+
+
+
+
+
+
+
+
